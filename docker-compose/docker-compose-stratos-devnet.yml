@@ -1,0 +1,93 @@
+version: '3.3'
+
+services:
+  redis:
+    image: 'redis:7.0.7-alpine'
+    container_name: redis
+    command: redis-server
+    volumes:
+      - redis_data:/data
+    expose:
+      - 6379
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "512m"
+
+  postgres:
+    image: postgres:14.6
+    restart: always
+    container_name: 'postgres'
+    environment:
+      POSTGRES_PASSWORD: ''
+      POSTGRES_USER: 'postgres'
+      POSTGRES_HOST_AUTH_METHOD: 'trust'
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    command: postgres -c 'max_connections=250'
+    expose:
+      - 5432
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "512m"
+
+  blockscout:
+    depends_on:
+      - postgres
+      - smart-contract-verifier
+      - redis
+    # image: blockscout/blockscout:${DOCKER_TAG:-latest}
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile
+      args:
+        SECRET_KEY_BASE: '5UXohjqXGeNiPAXcjvLhqWBapci9ZytPZUqBHAt56nM5unjlLXzj8u6uKFIlz7OE'
+    restart: always
+    container_name: 'blockscout'
+    command: bash -c "bin/blockscout eval \"Elixir.Explorer.ReleaseTasks.create_and_migrate()\" && bin/blockscout start"
+    # command: bash -c "while true; do sleep 15 ; echo "background"; done"
+    env_file:
+      - ./envs/common-stratos.env
+    environment:
+      ETHEREUM_JSONRPC_HTTP_URL: http://18.223.27.54:8545
+      CHAIN_ID: '2048'
+      BLOCKSCOUT_HOST: 'localhost:4000' # NOTE: Change this when domain will be ready for explorer
+      SHOW_TESTNET_LABEL: 'true'
+      NETWORK: Stratos
+      SUBNETWORK: Devnet
+    ports:
+      - 0.0.0.0:4000:4000
+    volumes:
+      - logs_data:/app/logs/
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "512m"
+
+  smart-contract-verifier:
+    image: ghcr.io/blockscout/smart-contract-verifier:${SMART_CONTRACT_VERIFIER_DOCKER_TAG:-latest}
+    restart: always
+    container_name: 'smart-contract-verifier'
+    env_file:
+      - ./envs/common-smart-contract-verifier.env
+    expose:
+      - 8043
+
+  visualizer:
+    image: ghcr.io/blockscout/visualizer:${VISUALIZER_DOCKER_TAG:-latest}
+    restart: always
+    container_name: 'visualizer'
+    env_file:
+      - ./envs/common-visualizer.env
+    expose:
+      - 8050
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "512m"
+
+volumes:
+  redis_data:
+  postgres_data:
+  logs_data:
