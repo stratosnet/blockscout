@@ -46,13 +46,14 @@ services:
     restart: always
     container_name: 'blockscout'
     command: bash -c "bin/blockscout eval \"Elixir.Explorer.ReleaseTasks.create_and_migrate()\" && bin/blockscout start"
-    # command: bash -c "while true; do sleep 15 ; echo "background"; done"
     env_file:
       - ./envs/common-stratos.env
     environment:
-      ETHEREUM_JSONRPC_HTTP_URL: http://18.223.27.54:8545
+      ETHEREUM_JSONRPC_HTTP_URL: http://host.docker.internal:8545
+      ETHEREUM_JSONRPC_TRACE_URL: http://host.docker.internal:8545
       CHAIN_ID: '2048'
-      BLOCKSCOUT_HOST: 'localhost:4000' # NOTE: Change this when domain will be ready for explorer
+      BLOCKSCOUT_PROTOCOL: http
+      BLOCKSCOUT_HOST: '35.230.126.102:4000'
       SHOW_TESTNET_LABEL: 'true'
       NETWORK: Stratos
       SUBNETWORK: Devnet
@@ -60,6 +61,8 @@ services:
       - 0.0.0.0:4000:4000
     volumes:
       - logs_data:/app/logs/
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
     logging:
       driver: "json-file"
       options:
