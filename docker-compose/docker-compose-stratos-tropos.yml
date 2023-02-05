@@ -49,14 +49,15 @@ services:
     env_file:
       - ./envs/common-stratos.env
     environment:
+      ETHEREUM_JSONRPC_VARIANT: ganache
       ETHEREUM_JSONRPC_HTTP_URL: http://host.docker.internal:8545
       ETHEREUM_JSONRPC_TRACE_URL: http://host.docker.internal:8545
       CHAIN_ID: '2048'
       BLOCKSCOUT_PROTOCOL: http
-      BLOCKSCOUT_HOST: '35.230.126.102:4000'
+      BLOCKSCOUT_HOST: '35.230.126.102'
       SHOW_TESTNET_LABEL: 'true'
       NETWORK: Stratos
-      SUBNETWORK: Devnet
+      SUBNETWORK: Tropos
     ports:
       - 0.0.0.0:4000:4000
     volumes:
