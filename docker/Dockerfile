@@ -57,7 +57,8 @@ ADD . .
 COPY . .
 
 # Run forderground build and phoenix digest
-RUN mix compile && npm install npm@latest
+RUN mix compile 
+RUN npm install npm@latest
 
 # Add blockscout npm deps
 RUN cd apps/block_scout_web/assets/ && \

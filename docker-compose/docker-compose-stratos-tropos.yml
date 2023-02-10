@@ -54,7 +54,7 @@ services:
       ETHEREUM_JSONRPC_TRACE_URL: http://host.docker.internal:8545
       SUPPORTED_CHAINS: '[ { "title": "Stratos Testnet", "url": "https://web3-testnet-explorer.thestratos.org", "test_net?": true } ]'
       EXTERNAL_APPS: '[ { "title": "Big Dipper (Testnet)", "url": "https://big-dipper-tropos.thestratos.org", "test_net?": true } ]'
-      CHAIN_ID: '2048'
+      CHAIN_ID: '2047'
       BLOCKSCOUT_PROTOCOL: https
       BLOCKSCOUT_HOST: 'web3-testnet-explorer.thestratos.org'
       SHOW_TESTNET_LABEL: 'true'
