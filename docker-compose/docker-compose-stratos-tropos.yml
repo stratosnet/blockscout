@@ -49,7 +49,7 @@ services:
     env_file:
       - ./envs/common-stratos.env
     environment:
-      ETHEREUM_JSONRPC_VARIANT: geth
+      ETHEREUM_JSONRPC_VARIANT: ganache
       ETHEREUM_JSONRPC_HTTP_URL: http://host.docker.internal:8545
       ETHEREUM_JSONRPC_TRACE_URL: http://host.docker.internal:8545
       SUPPORTED_CHAINS: '[ { "title": "Stratos Testnet", "url": "https://web3-testnet-explorer.thestratos.org", "test_net?": true } ]'
