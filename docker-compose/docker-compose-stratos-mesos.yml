@@ -43,18 +43,18 @@ services:
     environment:
       SECRET_KEY_BASE: '5UXohjqXGeNiPAXcjvLhqWBapci9ZytPZUqBHAt56nM5unjlLXzj8u6uKFIlz7OE'
       ETHEREUM_JSONRPC_VARIANT: ganache
-      ETHEREUM_JSONRPC_HTTP_URL: http://34.145.42.211:8545
-      ETHEREUM_JSONRPC_TRACE_URL: http://34.145.42.211:8545
-      SUPPORTED_CHAINS: '[ { "title": "Stratos Testnet", "url": "https://web3-testnet-explorer.thestratos.org", "test_net?": true } ]'
-      EXTERNAL_APPS: '[ { "title": "Big Dipper (Testnet)", "url": "https://big-dipper-tropos.thestratos.org", "test_net?": true } ]'
+      ETHEREUM_JSONRPC_HTTP_URL: http://54.245.134.108:8545
+      ETHEREUM_JSONRPC_TRACE_URL: http://54.245.134.108:8545
+      SUPPORTED_CHAINS: '[ { "title": "Stratos Testnet", "url": "https://web3-explorer-mesos.thestratos.org", "test_net?": true } ]'
+      EXTERNAL_APPS: '[ { "title": "Big Dipper (Testnet)", "url": "https://big-dipper-mesos.thestratos.org", "test_net?": true } ]'
       CHAIN_ID: '2047'
       BLOCKSCOUT_PROTOCOL: https
-      BLOCKSCOUT_HOST: 'web3-testnet-explorer.thestratos.org'
+      BLOCKSCOUT_HOST: 'web3-explorer-mesos.thestratos.org'
       SHOW_TESTNET_LABEL: 'true'
       NETWORK: Stratos
-      SUBNETWORK: Tropos
+      SUBNETWORK: Mesos
     ports:
-      - 0.0.0.0:4000:4000
+      - 0.0.0.0:80:4000
     volumes:
       - logs_data:/app/logs/
     extra_hosts:
